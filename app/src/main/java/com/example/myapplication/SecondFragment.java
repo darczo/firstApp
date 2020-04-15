@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
-import java.util.Objects;
+//import androidx.navigation.fragment.navArgs;
 import java.util.Random;
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -25,17 +24,20 @@ public class SecondFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_second, container, false);
     }
-    private Integer myArg = SecondFragmentArgs.fromBundle(Objects.requireNonNull(getArguments())).getMyArg();
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Integer count = SecondFragmentArgs.fromBundle(getArguments()).getMyArg();
+        String countText = getString(R.string.random_heading, count);
+        TextView headerView = view.getRootView().findViewById(R.id.textview_header);
+        headerView.setText(countText);
 
-        Integer count = myArg;
         Random random = new java.util.Random();
         Integer randomNumber = 0;
-//        if (count > 0) {
+        if (count > 0) {
             randomNumber = random.nextInt(count + 1);
-//        }
+        }
 
         TextView randomView = view.getRootView().findViewById(R.id.textview_random);
         randomView.setText(randomNumber.toString());
@@ -47,5 +49,6 @@ public class SecondFragment extends Fragment {
                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }
         });
+
     }
 }
